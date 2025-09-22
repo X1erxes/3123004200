@@ -1,5 +1,6 @@
 import sys
 import jieba
+from collections import Counter
 
 def read_file(filename):
     try:
@@ -26,6 +27,21 @@ def preprocess_text(text):
     return filtered_words
 
 
+def calculate_similarity(original_words, plagiarized_words):
+    original_counter = Counter(original_words)
+    plagiarized_counter = Counter(plagiarized_words)
+
+    intersection = sum((original_counter & plagiarized_counter).values())
+    union = sum((original_counter | plagiarized_counter).values())
+
+    if union == 0:
+        similarity = 0
+    else:
+        similarity = intersection / union
+
+    return similarity
+
+
 def main():
     if len(sys.argv) != 4:
         print(" ‰»Î¥ÌŒÛ")
@@ -45,6 +61,8 @@ def main():
 
     original_words = preprocess_text(original_text)
     plagiarized_words = preprocess_text(plagiarized_text)
+
+    similarity = calculate_similarity(original_words, plagiarized_words)
 
 
 if __name__ == "__main__":
