@@ -2,7 +2,13 @@ import sys
 
 
 def read_file(filename):
-    pass
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            content = f.read().strip()
+        return content
+    except FileNotFoundError:
+        print(f"错误：找不到文件 {filename}")
+        return None
 
 
 def main():
