@@ -8,16 +8,16 @@ def read_file(filename):
             content = f.read().strip()
         return content
     except FileNotFoundError:
-        print(f"´íÎó£ºÕÒ²»µ½ÎÄ¼ş {filename}")
+        print(f"é”™è¯¯ï¼šæ‰¾ä¸åˆ°æ–‡ä»¶ {filename}")
         return None
 
 
 def preprocess_text(text):
     words = jieba.lcut(text)
 
-    punctuation = '£¬¡££¡£¿£»£º""''£¨£©¡¾¡¿¡¶¡·¡¢'
-    stop_words = ['µÄ', 'ÁË', 'ÔÚ', 'ÊÇ', 'ÎÒ', 'ÓĞ', 'ºÍ', '¾Í', '²»', 'ÈË', '¶¼', 'Ò»', 'Ò»¸ö', 'ÉÏ', 'Ò²', 'ºÜ',
-                  'µ½', 'Ëµ', 'Òª', 'È¥', 'Äã', '»á', '×Å', 'Ã»ÓĞ', '¿´', 'ºÃ', '×Ô¼º', 'Õâ']
+    punctuation = 'ï¼Œã€‚ï¼ï¼Ÿï¼›ï¼š""''ï¼ˆï¼‰ã€ã€‘ã€Šã€‹ã€'
+    stop_words = ['çš„', 'äº†', 'åœ¨', 'æ˜¯', 'æˆ‘', 'æœ‰', 'å’Œ', 'å°±', 'ä¸', 'äºº', 'éƒ½', 'ä¸€', 'ä¸€ä¸ª', 'ä¸Š', 'ä¹Ÿ', 'å¾ˆ',
+                  'åˆ°', 'è¯´', 'è¦', 'å»', 'ä½ ', 'ä¼š', 'ç€', 'æ²¡æœ‰', 'çœ‹', 'å¥½', 'è‡ªå·±', 'è¿™']
 
     filtered_words = []
     for word in words:
@@ -42,9 +42,15 @@ def calculate_similarity(original_words, plagiarized_words):
     return similarity
 
 
+def write_result(filename, similarity):
+    """å°†ç»“æœå†™å…¥æ–‡ä»¶"""
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(f"{similarity:.2f}\n")
+
+
 def main():
     if len(sys.argv) != 4:
-        print("ÊäÈë´íÎó")
+        print("è¾“å…¥é”™è¯¯")
         return
 
     original_file = sys.argv[1]
@@ -63,6 +69,8 @@ def main():
     plagiarized_words = preprocess_text(plagiarized_text)
 
     similarity = calculate_similarity(original_words, plagiarized_words)
+    write_result(output_file, similarity)
+    print(f"è®ºæ–‡ç›¸ä¼¼åº¦: {similarity:.2f}")
 
 
 if __name__ == "__main__":
