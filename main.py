@@ -75,8 +75,8 @@ def main():
 
 
 def test_identical():
-    ori_text = read_file("./test_/idential_orig.txt")
-    plag_text = read_file("./test_/idential_test.txt")
+    ori_text = read_file("./test_/identical_orig.txt")
+    plag_text = read_file("./test_/identical_test.txt")
     ori_words = preprocess_text(ori_text)
     plag_words = preprocess_text(plag_text)
     similarity = calculate_similarity(ori_words, plag_words)
@@ -102,6 +102,16 @@ def test_partial_overlap():
     similarity = calculate_similarity(ori_words, plag_words)
     similarity = round(similarity, 2)
     assert similarity >= 0.5
+
+
+def test_empty_orig():
+    ori_text = read_file("./test_/ept_orig.txt")
+    plag_text = read_file("./test_/ept_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity == 0
 
 
 def test_empty_plag():
@@ -132,6 +142,36 @@ def test_substring():
     similarity = calculate_similarity(ori_words, plag_words)
     similarity = round(similarity, 2)
     assert similarity >= 0.5
+
+
+def test_long_text():
+    ori_text = read_file("./test_/long_orig.txt")
+    plag_text = read_file("./test_/long_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity >= 0.6
+
+
+def test_special_chars():
+    ori_text = read_file("./test_/special_orig.txt")
+    plag_text = read_file("./test_/special_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity >= 0.1
+
+
+def test_unsimplified():
+    ori_text = read_file("./test_/unsimplified_orig.txt")
+    plag_text = read_file("./test_/unsimplified_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity == 0
 
 
 if __name__ == "__main__":
