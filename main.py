@@ -2,6 +2,7 @@ import sys
 import jieba
 from collections import Counter
 
+
 def read_file(filename):
     try:
         with open(filename, 'r', encoding='utf-8') as f:
@@ -71,6 +72,66 @@ def main():
     similarity = calculate_similarity(original_words, plagiarized_words)
     write_result(output_file, similarity)
     print(f"论文相似度: {similarity:.2f}")
+
+
+def test_identical():
+    ori_text = read_file("./test_/idential_orig.txt")
+    plag_text = read_file("./test_/idential_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity == 1.0
+
+
+def test_completely_different():
+    ori_text = read_file("./test_/completely_orig.txt")
+    plag_text = read_file("./test_/completely_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity == 0
+
+
+def test_partial_overlap():
+    ori_text = read_file("./test_/partial_orig.txt")
+    plag_text = read_file("./test_/partial_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity >= 0.5
+
+
+def test_empty_plag():
+    ori_text = read_file("./test_/empty_orig.txt")
+    plag_text = read_file("./test_/empty_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity == 0
+
+
+def test_close():
+    ori_text = read_file("./test_/close_orig.txt")
+    plag_text = read_file("./test_/close_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity >= 0.5
+
+
+def test_substring():
+    ori_text = read_file("./test_/substring_orig.txt")
+    plag_text = read_file("./test_/substring_test.txt")
+    ori_words = preprocess_text(ori_text)
+    plag_words = preprocess_text(plag_text)
+    similarity = calculate_similarity(ori_words, plag_words)
+    similarity = round(similarity, 2)
+    assert similarity >= 0.5
 
 
 if __name__ == "__main__":
